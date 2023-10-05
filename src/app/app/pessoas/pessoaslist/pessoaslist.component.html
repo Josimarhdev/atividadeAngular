@@ -1,16 +1,21 @@
 <div class="main">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Idade</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let pessoa of lista">
+          <tr *ngIf="pessoa.idade > 30" class="table-row">
+            <td>{{ pessoa.nome }}</td>
+            <td>{{ pessoa.idade }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
 
-<table border="10px">
-    <tr>
-        <th>Nome:</th>
-        <th>Idade: </th>
-    </tr>
-    <tr *ngFor="let pessoa of lista">
-
-        <div *ngIf="pessoa.idade > 30">
-            <td>{{pessoa.nome}}</td>
-            <td>{{pessoa.idade}}</td>
-        </div>
-    </tr>
-</table>
-</div>
+    
+  </div>
+  
