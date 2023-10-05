@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Pessoa } from '../../pessoas/pessoa';
+import { Carro } from '../carro';
 
 @Component({
   selector: 'app-carrosdetails',
@@ -6,5 +9,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./carrosdetails.component.scss']
 })
 export class CarrosdetailsComponent {
+
+  roteador = inject(ActivatedRoute);
+  carro!: Carro;
+
+
+  constructor(){
+    let id = this.roteador.snapshot.paramMap.get('id');
+    console.log(id);
+  }
 
 }
