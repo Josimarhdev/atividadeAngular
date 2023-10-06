@@ -36,4 +36,27 @@
   tr:nth-child(odd) {
     background-color: #fff;
   }
+
+  .custom-button {
+    background-color: #007bff; 
+    color: #fff;
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 21.5vh; 
+  }
+  
+  
+  .custom-button:hover {
+    background-color: #0056b3;
+  }
+  
+  
   

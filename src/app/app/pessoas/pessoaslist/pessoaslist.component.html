@@ -8,7 +8,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let pessoa of lista">
-          <tr *ngIf="pessoa.idade > 30" class="table-row">
+          <tr *ngIf="pessoa.idade >= 0" class="table-row">
             <td>{{ pessoa.nome }}</td>
             <td>{{ pessoa.idade }}</td>
           </tr>
@@ -16,6 +16,28 @@
       </tbody>
     </table>
 
+    <div class="button-container">
+      <button class="custom-button" (click)="abrirModal(abc)">Nova pessoa</button>
+    </div>
+    
+
+ 
+
+
+<ng-template #abc let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Modal title</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		
+        <app-pessoasdetails (retorno)="addNaLista($event)" ></app-pessoasdetails>
+            
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+	</div>
+</ng-template>
     
   </div>
   

@@ -1,9 +1,9 @@
 <div class="main">
 
-    <input type="text" placeholder="Título"/>
+    <input type="text" placeholder="Título"  [(ngModel)]="livro.titulo"/>
 
-    <input type="text" placeholder="Autor"/>
+    <input type="text" placeholder="Autor"  [(ngModel)]="livro.autor"/>
 
-    <input type="button" value="Criar" routerLink="/admin/livros" />
+    <input type="button" (click)="salvar()" value="Criar" routerLink="/admin/livros" />
 
 </div>

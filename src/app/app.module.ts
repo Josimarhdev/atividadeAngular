@@ -15,6 +15,7 @@ import { CarrosdetailsComponent } from './app/carros/carrosdetails/carrosdetails
 import { LivroslistComponent } from './app/livros/livroslist/livroslist.component';
 import { LivrosdetailsComponent } from './app/livros/livrosdetails/livrosdetails.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     NgbModule
   ],
   providers: [],

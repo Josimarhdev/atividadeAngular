@@ -1,9 +1,9 @@
 <div class="main">
 
-    <input type="text" placeholder="Nome"/>
+    <input type="text" placeholder="Nome" [(ngModel)]="carro.nome"/>
 
-    <input type="text" placeholder="Ano"/>
+    <input type="text" placeholder="Ano" [(ngModel)]="carro.ano"/>
 
-    <input type="button" value="Criar" routerLink="/admin/carros" />
+    <input type="button" (click)="salvar()" value="Criar" routerLink="/admin/carros" />
 
 </div>
