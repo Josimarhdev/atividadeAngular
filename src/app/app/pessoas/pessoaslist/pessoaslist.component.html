@@ -2,36 +2,42 @@
     <table class="custom-table">
       <thead>
         <tr>
+          <th>#ID</th>
           <th>Nome</th>
           <th>Idade</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let pessoa of lista">
-          <tr *ngIf="pessoa.idade >= 0" class="table-row">
+        <ng-container *ngFor="let pessoa of lista; let i = index">
+          <tr  class="table-row">
+            <th scope="row">{{ pessoa.id }}</th>
             <td>{{ pessoa.nome }}</td>
             <td>{{ pessoa.idade }}</td>
+            <td> <button class="btn btn-primary" (click)="editar(modal1, pessoa, i)">Editar</button>
+              <button class="btn btn-danger" (click)="deletePessoa(pessoa.id)">Excluir</button> </td>
+            
           </tr>
         </ng-container>
       </tbody>
     </table>
 
     <div class="button-container">
-      <button class="custom-button" (click)="abrirModal(abc)">Nova pessoa</button>
+      <button class="custom-button" (click)="abrirModal(modal1)">Nova pessoa</button>
     </div>
     
 
  
 
 
-<ng-template #abc let-modal>
+<ng-template #modal1 let-modal>
 	<div class="modal-header">
 		<h4 class="modal-title">Modal title</h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body">
 		
-        <app-pessoasdetails (retorno)="addNaLista($event)" ></app-pessoasdetails>
+    <app-pessoasdetails [pessoa]="pessoaSelecionadaParaEdicao" (retorno)="addOuEditarPessoa($event)" ></app-pessoasdetails>
             
 	</div>
 	<div class="modal-footer">

@@ -2,32 +2,36 @@
 
     <table border="10px">
         <tr>
+            <th>#ID</th>
             <th>Título:</th>
             <th>Autor: </th>
+            <th>Ações</th>
         </tr>
-        <tr *ngFor="let livro of lista">
+        <tr *ngFor="let livro of lista let i = index">
 
-
+            <th scope="row">{{ livro.id }}</th>
             <td>{{livro.titulo}}</td>
             <td>{{livro.autor}}</td>
+            <td> <button class="btn btn-primary" (click)="editar(modal1, livro, i)">Editar</button>
+                <button class="btn btn-danger" (click)="deletePessoa(livro.id)">Excluir</button> </td>
 
         </tr>
     </table>
 
     <div class="button-container">
-        <button class="custom-button" (click)="abrirModal(abc)">Novo livro</button>
+        <button class="custom-button" (click)="abrirModal(modal1)">Novo livro</button>
     </div>
 
 
 
-    <ng-template #abc let-modal>
+    <ng-template #modal1 let-modal>
         <div class="modal-header">
             <h4 class="modal-title">Modal title</h4>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
             
-            <app-livrosdetails (retorno)="addNaLista($event)" ></app-livrosdetails>
+            <app-livrosdetails [livro]="livroSelecionadaParaEdicao" (retorno)="addOuEditarPessoa($event)" ></app-livrosdetails>
                 
         </div>
         <div class="modal-footer">

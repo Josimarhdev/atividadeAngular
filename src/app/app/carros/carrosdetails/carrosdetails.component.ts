@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Pessoa } from '../../pessoas/pessoa';
 import { Carro } from '../carro';
+import { CarroService } from 'src/app/services/carro.service';
 
 @Component({
   selector: 'app-carrosdetails',
@@ -11,20 +12,31 @@ import { Carro } from '../carro';
 export class CarrosdetailsComponent {
 
   roteador = inject(ActivatedRoute);
-  carro: Carro = new Carro();
 
-
+  @Input() carro: Carro = new Carro();
   @Output() retorno = new EventEmitter<Carro>();
 
+  carroService = inject(CarroService)
+
   constructor(){
-    let id = this.roteador.snapshot.paramMap.get('id');
-    console.log(id);
+    
   }
 
-  salvar(){
+  salvar() {
+    //ISSO AQUI SERVE PARA EDITAR OU ADICIONAR... TANTO FAZ
 
-    this.retorno.emit(this.carro);
+    this.carroService.save(this.carro).subscribe({
+      next: livro => { // QUANDO DÁ CERTO
+        this.retorno.emit(livro);
+      },
+      error: erro => { // QUANDO DÁ ERRO
+        alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
+        console.error(erro);
+      }
+    });
+
 
   }
+
 
 }

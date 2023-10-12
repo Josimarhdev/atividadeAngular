@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Carro } from '../carro';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CarroService } from 'src/app/services/carro.service';
 
 @Component({
   selector: 'app-carroslist',
@@ -11,23 +12,17 @@ export class CarroslistComponent {
 
   lista: Carro[] = [];
 
+  carroSelecionadaParaEdicao: Carro = new Carro();
+  indiceSelecionadoParaEdicao!: number;
+
   constructor(){
 
-    let carro1 = new Carro();
-    carro1.nome = "Celta"
-    carro1.ano = 2007;
-
-    let carro2 = new Carro();
-    carro2.nome = "Focus"
-    carro2.ano = 2004;
-
-
-    this.lista.push(carro1);
-    this.lista.push(carro2);
+    this.listAll();
 
   }
 
   modalService = inject(NgbModal);
+  carroService = inject(CarroService);
 
 abrirModal(abc : any){
   this.modalService.open(abc, {size: 'lg'});
@@ -39,5 +34,73 @@ addNaLista(carro: Carro){
   this.modalService.dismissAll();
 
 }
+
+listAll() {
+
+  this.carroService.listAll().subscribe({
+    next: lista => { // QUANDO DÁ CERTO
+      this.lista = lista;
+    },
+    error: erro => { // QUANDO DÁ ERRO
+      alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
+      console.error(erro);
+    }
+  });
+
+}
+
+exemploErro() {
+
+  this.carroService.exemploErro().subscribe({
+    next: lista => { // QUANDO DÁ CERTO
+      this.lista = lista;
+    },
+    error: erro => { // QUANDO DÁ ERRO
+      alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
+      console.error(erro);
+    }
+  });
+
+}
+
+
+adicionar(modal: any) {
+  this.carroSelecionadaParaEdicao = new Carro();
+
+  this.modalService.open(modal, { size: 'sm' });
+}
+
+editar(modal: any, carro: Carro, indice: number) {
+  this.carroSelecionadaParaEdicao = Object.assign({}, carro); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
+  this.indiceSelecionadoParaEdicao = indice;
+
+  this.modalService.open(modal, { size: 'sm' });
+}
+
+addOuEditarCarro(carro: Carro) {
+
+  this.listAll();
+
+
+
+  this.modalService.dismissAll();
+
+}
+
+deletePessoa(id: number) {
+  if (confirm('Tem certeza de que deseja excluir este livro?')) {
+    this.carroService.deleteCarro(id).subscribe(
+      () => {
+      
+        this.listAll();
+      },
+      (error) => {
+        console.error('Erro ao excluir a pessoa.', error);
+      
+      }
+    );
+  }
+}
+
 
 }

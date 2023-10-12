@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Pessoa } from '../pessoa';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PessoaService } from 'src/app/services/pessoa.service';
 
 @Component({
   selector: 'app-pessoaslist',
@@ -11,63 +12,20 @@ export class PessoaslistComponent {
 
   lista: Pessoa[] = [];
 
+  pessoaSelecionadaParaEdicao: Pessoa = new Pessoa();
+  indiceSelecionadoParaEdicao!: number;
+
+  modalService = inject(NgbModal);
+  pessoaService = inject(PessoaService);
+
   constructor(){
 
-    let pessoa1: Pessoa = new Pessoa();
-    pessoa1.nome = 'Marcos';
-    pessoa1.idade = 18;
-
-    let pessoa2: Pessoa = new Pessoa();
-    pessoa2.nome = 'Joao';
-    pessoa2.idade = 18;
-
-    let pessoa3: Pessoa = new Pessoa();
-    pessoa3.nome = 'Gabriel';
-    pessoa3.idade = 18;
-
-    let pessoa4: Pessoa = new Pessoa();
-    pessoa4.nome = 'Paulo';
-    pessoa4.idade = 31;
-
-    let pessoa5: Pessoa = new Pessoa();
-    pessoa5.nome = 'Ricardo';
-    pessoa5.idade = 31;
-
-    let pessoa6: Pessoa = new Pessoa();
-    pessoa6.nome = 'Fernanda';
-    pessoa6.idade = 31;
-
-    let pessoa7: Pessoa = new Pessoa();
-    pessoa7.nome = 'Ana';
-    pessoa7.idade = 31;
-
-    let pessoa8: Pessoa = new Pessoa();
-    pessoa8.nome = 'Vitor';
-    pessoa8.idade = 31;
-
-    let pessoa9: Pessoa = new Pessoa();
-    pessoa9.nome = 'Leo';
-    pessoa9.idade = 31;
-
-    let pessoa10: Pessoa = new Pessoa();
-    pessoa10.nome = 'Mercedes';
-    pessoa10.idade = 31;
-
-    this.lista.push(pessoa1);
-    this.lista.push(pessoa2);
-    this.lista.push(pessoa3);
-    this.lista.push(pessoa4);
-    this.lista.push(pessoa5);
-    this.lista.push(pessoa6);
-    this.lista.push(pessoa7);
-    this.lista.push(pessoa8);
-    this.lista.push(pessoa9);
-    this.lista.push(pessoa10);
+    this.listAll();
 
 
   }
 
-    modalService = inject(NgbModal);
+
 
     abrirModal(abc : any){
       this.modalService.open(abc, {size: 'lg'});
@@ -79,5 +37,82 @@ export class PessoaslistComponent {
       this.modalService.dismissAll();
 
     }
+
+    listAll() {
+
+      this.pessoaService.listAll().subscribe({
+        next: lista => { 
+          this.lista = lista;
+        },
+        error: erro => { 
+          alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
+          console.error(erro);
+        }
+      });
+  
+    }
+  
+    exemploErro() {
+  
+      this.pessoaService.exemploErro().subscribe({
+        next: lista => { 
+          this.lista = lista;
+        },
+        error: erro => { 
+          alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
+          console.error(erro);
+        }
+      });
+  
+    }
+  
+  
+    adicionar(modal: any) {
+      this.pessoaSelecionadaParaEdicao = new Pessoa();
+  
+      this.modalService.open(modal, { size: 'sm' });
+    }
+  
+    editar(modal: any, pessoa: Pessoa, indice: number) {
+      this.pessoaSelecionadaParaEdicao = Object.assign({}, pessoa); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
+      this.indiceSelecionadoParaEdicao = indice;
+  
+      this.modalService.open(modal, { size: 'sm' });
+    }
+  
+    addOuEditarPessoa(pessoa: Pessoa) {
+  
+      this.listAll();
+  
+      /*
+  
+      if (this.pessoaSelecionadaParaEdicao.id > 0) { //MODO EDITAR
+        this.lista[this.indiceSelecionadoParaEdicao] = pessoa;
+      } else {
+        pessoa.id = 99;
+        this.lista.push(pessoa);
+      }
+      */
+  
+      this.modalService.dismissAll();
+  
+    }
+
+    deletePessoa(id: number) {
+      if (confirm('Tem certeza de que deseja excluir esta pessoa?')) {
+        this.pessoaService.deletePessoa(id).subscribe(
+          () => {
+            
+            this.listAll();
+          },
+          (error) => {
+            console.error('Erro ao excluir a pessoa.', error);
+            
+          }
+        );
+      }
+    }
+    
+  
 
 }
