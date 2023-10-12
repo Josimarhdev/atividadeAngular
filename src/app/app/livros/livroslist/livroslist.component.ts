@@ -92,7 +92,7 @@ addOuEditarPessoa(livro: Livro) {
 }
 
 deletePessoa(id: number) {
-  if (confirm('Tem certeza de que deseja excluir este carro?')) {
+  if (confirm('Tem certeza de que deseja excluir este carro??')) {
     this.livroService.deleteLivro(id).subscribe(
       () => {
       
